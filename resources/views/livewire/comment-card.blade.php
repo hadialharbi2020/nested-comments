@@ -1,10 +1,10 @@
 <div x-data wire:poll.15s>
     <div class="p-8 my-4 rounded-lg bg-gray-50 ring-gray-100 dark:bg-gray-950">
-        <div class="flex flex-wrap items-center justify-between">
-            <div x-data="{showFullDate: false}" class="flex items-center space-x-2">
+        <div class="flex flex-wrap items-center justify-between rtl:space-x-reverse">
+            <div x-data="{showFullDate: false}" class="flex items-center space-x-2 space-x-reverse rtl:space-x-reverse">
                 <x-filament::avatar :src="$this->getAvatar()" :alt="$this->getCommentator()"
                     :name="$this->getCommentator()" size="md" :circular="false" />
-                <div x-on:mouseover="showFullDate = true" x-on:mouseout="showFullDate = false" class="cursor-pointer">
+                <div x-on:mouseover="showFullDate = true" x-on:mouseout="showFullDate = false" class="text-right cursor-pointer rtl:text-right">
                     <p class="text-sm font-semibold text-gray-900 dark:text-white">
                         {{ $this->getCommentator() }}
                     </p>
