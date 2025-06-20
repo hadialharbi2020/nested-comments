@@ -32,6 +32,7 @@
         "php": "^8.2",
         "awcodes/filament-tiptap-editor": "^3.5.12",
         "filament/filament": "^3.2",
+        "illuminate/translation": "*",
         "kalnoy/nestedset": "^6.0",
         "spatie/laravel-package-tools": "^1.15.0",
         "tangodev-it/filament-emoji-picker": "^1.0.3"
@@ -74,10 +75,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Coolsam\\NestedComments\\NestedCommentsServiceProvider"
+                "Hadialharbi\\NestedComments\\NestedCommentsServiceProvider"
             ],
             "aliases": {
-                "NestedComments": "Coolsam\\NestedComments\\Facades\\NestedComments"
+                "NestedComments": "Hadialharbi\\NestedComments\\Facades\\NestedComments"
             }
         }
     },

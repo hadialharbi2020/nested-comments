@@ -29,6 +29,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app): array
     {
         return [
+            \Illuminate\Translation\TranslationServiceProvider::class,
             NestedCommentsServiceProvider::class,
             NestedSetServiceProvider::class, // أضف هذا السطر
         ];
@@ -36,6 +37,9 @@ abstract class TestCase extends BaseTestCase
 
     protected function defineEnvironment($app)
     {
+
+        $app['config']->set('app.locale', 'ar');
+        $app['config']->set('app.fallback_locale', 'en');
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',
