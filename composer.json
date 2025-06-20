@@ -1,6 +1,6 @@
 {
-    "name": "coolsam/nested-comments",
-    "description": "Add Nested comments/replies to filament forms, infolists and resources",
+    "name": "hadialharbi/nested-comments",
+    "description": "Fork of coolsam/nested-comments with Arabic RTL support and Filament integration",
     "keywords": [
         "coolsam",
         "laravel",
@@ -39,13 +39,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Coolsam\\NestedComments\\": "src/",
-            "Coolsam\\NestedComments\\Database\\Factories\\": "database/factories/"
+            "Hadialharbi\\NestedComments\\": "src/",
+            "Hadialharbi\\NestedComments\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Coolsam\\NestedComments\\Tests\\": "tests/"
+            "Hadialharbi\\NestedComments\\Tests\\": "tests/"
         }
     },
     "scripts": {
