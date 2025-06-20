@@ -6,6 +6,7 @@ use Hadialharbi\NestedComments\NestedCommentsServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NestedSetServiceProvider;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -29,6 +30,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app): array
     {
         return [
+            LivewireServiceProvider::class, // ✅ أضف هذه السطر
             \Illuminate\Translation\TranslationServiceProvider::class,
             NestedCommentsServiceProvider::class,
             NestedSetServiceProvider::class, // أضف هذا السطر

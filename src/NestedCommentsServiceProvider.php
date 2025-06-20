@@ -216,23 +216,19 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
         }
     }
 
-    protected function registerLivewireComponents()
+    protected function registerLivewireComponents(): void
     {
-        $namespace = static::$viewNamespace;
-        $components = $this->getLivewireComponents();
-        if (empty($components)) {
+        if (! class_exists(\Livewire\Livewire::class)) {
             return;
         }
+
+        $namespace = static::$viewNamespace;
+        $components = $this->getLivewireComponents();
+
         foreach ($components as $name => $component) {
-            // NestedCommentsServiceProvider.php
-
-            if (class_exists(\Livewire\Livewire::class)) {
-                // تأكد أن هذا السطر ما ينفذ لو المكون غير موجود
-                if (class_exists(\Hadialharbi\NestedComments\Livewire\NestedComments::class)) {
-                    Livewire::component("$namespace::$name", $component);
-                }
-            }
-
+            // if (class_exists($component)) {
+            \Livewire\Livewire::component("$namespace::$name", $component);
+            // }
         }
     }
 
