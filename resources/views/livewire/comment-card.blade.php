@@ -1,21 +1,22 @@
 <div x-data wire:poll.15s>
     <div class="p-8 my-4 rounded-lg bg-gray-50 ring-gray-100 dark:bg-gray-950">
-        <div class="flex flex-wrap items-center justify-between" dir="rtl">
-            <div x-data="{showFullDate: false}" class="flex flex-row-reverse items-center space-x-2">
-                <x-filament::avatar :src="$this->getAvatar()" :alt="$this->getCommentator()" :name="$this->getCommentator()"
-                    size="md" :circular="false" />
-                <div x-on:mouseover="showFullDate = true" x-on:mouseout="showFullDate = false" class="cursor-pointer">
-                    <p class="text-sm font-semibold text-right text-gray-900 dark:text-white">
+        <div class="flex flex-wrap items-center justify-between rtl:space-x-reverse">
+            <div x-data="{showFullDate: false}" class="flex items-center space-x-2">
+                <x-filament::avatar :src="$this->getAvatar()" :alt="$this->getCommentator()"
+                    :name="$this->getCommentator()" size="md" :circular="false" />
+                <div x-on:mouseover="showFullDate = true" x-on:mouseout="showFullDate = false" class="text-right cursor-pointer rtl:text-right">
+                    <p class="text-sm font-semibold text-gray-900 dark:text-white">
                         {{ $this->getCommentator() }}
                     </p>
-                    <p x-show="!showFullDate" class="text-xs text-right text-gray-500 dark:text-gray-400">
+                    <p x-show="!showFullDate" class="text-xs text-gray-500 dark:text-gray-400">
                         {{ $this->comment->created_at?->diffForHumans() }}
                     </p>
-                    <p x-show="showFullDate" class="text-xs text-right text-gray-500 dark:text-gray-400">
-                        {{ $this->comment->created_at->format(config('nested-comments.format-created-date', 'F j Y h:i:s A')) }}
-                    </p>
+                    <p x-show="showFullDate" class="text-xs text-gray-500 dark:text-gray-400">{{
+                        $this->comment->created_at->format(config('nested-comments.format-created-date', 'F j Y h:i:s
+                        A')) }}</p>
                 </div>
-            </div>  </div>
+            </div>
+        </div>
         <div class="my-4 prose max-w-none dark:prose-invert">
             {!! e(new \Illuminate\Support\HtmlString($this->comment?->body)) !!}
         </div>
