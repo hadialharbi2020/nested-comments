@@ -1,9 +1,9 @@
 <?php
 
-namespace Coolsam\NestedComments\Livewire;
+namespace Hadialharbi\NestedComments\Livewire;
 
-use Coolsam\NestedComments\Models\Comment;
-use Coolsam\NestedComments\NestedCommentsServiceProvider;
+use Hadialharbi\NestedComments\Models\Comment;
+use Hadialharbi\NestedComments\NestedCommentsServiceProvider;
 use Error;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Livewire\Component;

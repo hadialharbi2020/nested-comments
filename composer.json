@@ -23,16 +23,16 @@
         "php": "^8.2",
         "awcodes/filament-tiptap-editor": "^3.5.12",
         "filament/filament": "^3.2",
-        "kalnoy/nestedset": "^6.0.5",
+        "kalnoy/nestedset": "^6.0",
         "spatie/laravel-package-tools": "^1.15.0",
         "tangodev-it/filament-emoji-picker": "^1.0.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",
         "laravel/pint": "^1.0",
+        "livewire/livewire": "^3.6",
         "nunomaduro/larastan": "^3.1.0",
-        "orchestra/testbench": "^9.12",
-        "pestphp/pest-plugin-laravel": "^3.1",
+        "orchestra/testbench": "^10.4",
         "pestphp/pest-plugin-livewire": "^3.0",
         "phpstan/extension-installer": "^1.4.3",
         "spatie/laravel-ray": "^1.39"
@@ -51,7 +51,7 @@
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
         "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
+        "test": "phpunit",
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"
     },

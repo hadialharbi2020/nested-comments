@@ -1,26 +1,26 @@
 <?php
 
-namespace Coolsam\NestedComments;
+namespace Hadialharbi\NestedComments;
 
-use Coolsam\NestedComments\Commands\NestedCommentsCommand;
-use Coolsam\NestedComments\Filament\Widgets\CommentsWidget;
-use Coolsam\NestedComments\Http\Middleware\GuestCommentatorMiddleware;
-use Coolsam\NestedComments\Livewire\AddComment;
-use Coolsam\NestedComments\Livewire\CommentCard;
-use Coolsam\NestedComments\Livewire\Comments;
-use Coolsam\NestedComments\Livewire\ReactionPanel;
-use Coolsam\NestedComments\Testing\TestsNestedComments;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
+use Hadialharbi\NestedComments\Commands\NestedCommentsCommand;
+use Hadialharbi\NestedComments\Filament\Widgets\CommentsWidget;
+use Hadialharbi\NestedComments\Http\Middleware\GuestCommentatorMiddleware;
+use Hadialharbi\NestedComments\Livewire\AddComment;
+use Hadialharbi\NestedComments\Livewire\CommentCard;
+use Hadialharbi\NestedComments\Livewire\Comments;
+use Hadialharbi\NestedComments\Livewire\ReactionPanel;
+use Hadialharbi\NestedComments\Testing\TestsNestedComments;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Livewire\Features\SupportTesting\Testable;
-use Livewire\Livewire;
+// use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -224,7 +224,15 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
             return;
         }
         foreach ($components as $name => $component) {
-            Livewire::component("$namespace::$name", $component);
+            // NestedCommentsServiceProvider.php
+
+            if (class_exists(\Livewire\Livewire::class)) {
+                // تأكد أن هذا السطر ما ينفذ لو المكون غير موجود
+                if (class_exists(\Hadialharbi\NestedComments\Livewire\NestedComments::class)) {
+                    Livewire::component("$namespace::$name", $component);
+                }
+            }
+
         }
     }
 

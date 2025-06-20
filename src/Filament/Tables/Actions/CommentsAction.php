@@ -1,8 +1,8 @@
 <?php
 
-namespace Coolsam\NestedComments\Filament\Tables\Actions;
+namespace Hadialharbi\NestedComments\Filament\Tables\Actions;
 
-use Coolsam\NestedComments\NestedComments;
+use Hadialharbi\NestedComments\NestedComments;
 use Filament\Tables\Actions\Action;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
