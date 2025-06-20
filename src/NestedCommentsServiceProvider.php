@@ -61,10 +61,10 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
 
                         $forceAssets = confirm(__('Do you want to override existing assets with new assets? (important if you are doing an upgrade)'), true);
                         if ($forceAssets) {
-                            // Delete the existing assets in public/css/coolsam and public/js/coolsam
+                            // Delete the existing assets in public/css/hadialharbi and public/js/hadialharbi
                             $filesystem = app(Filesystem::class);
-                            $filesystem->deleteDirectory(public_path('css/coolsam/nested-comments'));
-                            $filesystem->deleteDirectory(public_path('js/coolsam/nested-comments'));
+                            $filesystem->deleteDirectory(public_path('css/hadialharbi/nested-comments'));
+                            $filesystem->deleteDirectory(public_path('js/hadialharbi/nested-comments'));
                             Artisan::call('filament:assets');
                         }
                     })
@@ -72,7 +72,7 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
                     ->publishAssets()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub('coolsam/nested-comments');
+                    ->askToStarRepoOnGitHub('hadialharbi/nested-comments');
             });
 
         $configFileName = $package->shortName();
@@ -140,7 +140,7 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'coolsam/nested-comments';
+        return 'hadialharbi/nested-comments';
     }
 
     /**

@@ -2,15 +2,19 @@
 
 namespace Hadialharbi\NestedComments\Livewire;
 
-use Hadialharbi\NestedComments\Models\Comment;
-use Hadialharbi\NestedComments\NestedCommentsServiceProvider;
 use Error;
 use Filament\Support\Concerns\EvaluatesClosures;
+use Hadialharbi\NestedComments\Models\Comment;
+use Hadialharbi\NestedComments\NestedCommentsServiceProvider;
 use Livewire\Component;
 
 class CommentCard extends Component
 {
     use EvaluatesClosures;
+
+    public bool $isEditing = false;
+
+    public ?string $editedBody = null;
 
     public ?Comment $comment = null;
 
@@ -31,6 +35,8 @@ class CommentCard extends Component
         }
 
         $this->comment = $comment;
+        $this->editedBody = $comment->body;
+
     }
 
     public function render()
@@ -72,5 +78,40 @@ class CommentCard extends Component
          * @phpstan-ignore-next-line
          */
         return $this->comment->commentable?->getUserNameUsing($this->comment);
+    }
+
+    public function updateComment(): void
+    {
+        if (! auth()->check() || auth()->id() !== $this->comment->user_id) {
+            abort(403);
+        }
+
+        $this->validate([
+            'editedBody' => 'required|string|min:1',
+        ]);
+
+        $this->comment->update(['body' => $this->editedBody]);
+        $this->isEditing = false;
+    }
+
+    public function deleteComment(): void
+    {
+        if (! auth()->check() || auth()->id() !== $this->comment->user_id) {
+            abort(403);
+        }
+
+        $this->comment->delete();
+        $this->dispatch('refresh')->to(Comments::class);
+    }
+
+    public function enableEditing(): void
+    {
+        $this->isEditing = true;
+    }
+
+    public function cancelEditing(): void
+    {
+        $this->isEditing = false;
+        $this->editedBody = $this->comment->body;
     }
 }
