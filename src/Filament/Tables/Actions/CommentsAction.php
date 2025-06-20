@@ -2,8 +2,8 @@
 
 namespace Hadialharbi\NestedComments\Filament\Tables\Actions;
 
-use Hadialharbi\NestedComments\NestedComments;
 use Filament\Tables\Actions\Action;
+use Hadialharbi\NestedComments\NestedComments;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
 
@@ -23,7 +23,7 @@ class CommentsAction extends Action
 
     public static function getDefaultName(): ?string
     {
-        return 'comments';
+        return 'التعليقات';
     }
 
     public function getModalContent(): View | Htmlable | null
