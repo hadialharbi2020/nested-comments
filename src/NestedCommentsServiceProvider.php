@@ -14,6 +14,7 @@ use Hadialharbi\NestedComments\Http\Middleware\GuestCommentatorMiddleware;
 use Hadialharbi\NestedComments\Livewire\AddComment;
 use Hadialharbi\NestedComments\Livewire\CommentCard;
 use Hadialharbi\NestedComments\Livewire\Comments;
+use Hadialharbi\NestedComments\Livewire\EditComment;
 use Hadialharbi\NestedComments\Livewire\ReactionPanel;
 use Hadialharbi\NestedComments\Testing\TestsNestedComments;
 use Illuminate\Console\Command;
@@ -238,6 +239,7 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
             'comments' => Comments::class,
             'comment-card' => CommentCard::class,
             'add-comment' => AddComment::class,
+            'edit-comment' => EditComment::class,
             'reaction-panel' => ReactionPanel::class,
             'filament.widgets.comments-widget' => CommentsWidget::class,
         ];
