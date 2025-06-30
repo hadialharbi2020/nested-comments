@@ -18,11 +18,13 @@ class CommentCard extends Component
 
     public ?Comment $comment = null;
 
-    public bool $showReplies = false;
+    // public bool $showReplies = false;
 
     public ?string $userAvatar = null;
 
     public ?string $userName = null;
+
+    public ?int $replyingToCommentId = null;
 
     protected $listeners = [
         'refresh' => 'refreshReplies',
@@ -53,7 +55,7 @@ class CommentCard extends Component
 
     public function toggleReplies(): void
     {
-        $this->showReplies = ! $this->showReplies;
+        $this->replyingToCommentId = ($this->replyingToCommentId === $this->comment->id) ? null : $this->comment->id;
     }
 
     public function getAvatar()
