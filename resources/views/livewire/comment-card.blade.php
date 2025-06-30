@@ -17,7 +17,7 @@
                             config(
                                 'nested-comments.format-created-date',
                                 'F j Y h:i:s
-                                                                                                                                                                                                                                                A',
+                                                                                                                                                                                                                                                                        A',
                             ),
                         ) }}
                     </p>
@@ -25,7 +25,9 @@
             </div>
         </div>
         @if ($isEditing)
-            <x-filament::textarea wire:model.defer="editedBody" class="w-full" />
+            <textarea wire:model.defer="editedBody"
+                class="w-full border-gray-300 rounded-lg shadow-sm dark:bg-gray-900 dark:text-white dark:border-gray-700"></textarea>
+
             <div class="flex gap-2 mt-2">
                 <x-filament::button wire:click="updateComment" size="sm"
                     icon="heroicon-o-check">حفظ</x-filament::button>
