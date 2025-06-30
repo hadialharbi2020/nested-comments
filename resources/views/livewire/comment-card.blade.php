@@ -1,10 +1,7 @@
-<div x-data="{ notify: '', showFullDate: false }" @notify.window="notify = $event.detail.message; setTimeout(() => notify = '', 3000)">
-    <!-- إشعار الحذف أو التحديث -->
-    <div x-show="notify" x-cloak
-        class="fixed p-4 text-white transition-opacity duration-300 bg-green-500 rounded-lg shadow-lg top-4 right-4"
-        x-transition>
-        {{ notify }}
-    </div>
+<div x-data wire:poll.15s dir="rtl" class="text-right">
+
+
+
 
     @if ($comment)
         <div class="p-8 my-4 rounded-lg bg-gray-50 ring-gray-100 dark:bg-gray-950" x-data="{ isDeleted: false }"

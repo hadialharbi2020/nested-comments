@@ -117,7 +117,6 @@ class CommentCard extends Component
         $parentId = $this->comment->parent_id;
         $this->comment->delete();
         $this->dispatch('comment-deleted', id: $commentId, parentId: $parentId);
-        $this->dispatch('notify', message: 'تم حذف التعليق بنجاح!');
     }
 
     /**
@@ -134,7 +133,6 @@ class CommentCard extends Component
         } elseif ($this->comment && $this->comment->id === $parentId) {
             // أحد الردود المتداخلة تم حذفه، تحديث الردود
             $this->comment->load('children'); // تحميل العلاقة children
-            $this->dispatch('notify', message: 'تم حذف رد متداخل.');
         }
     }
 
