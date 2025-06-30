@@ -17,17 +17,36 @@
                             config(
                                 'nested-comments.format-created-date',
                                 'F j Y h:i:s
-                                                                                                                        A',
+                                                                                                                                                                                                                                                A',
                             ),
                         ) }}
                     </p>
                 </div>
             </div>
         </div>
-        <div class="my-4 prose max-w-none dark:prose-invert">
-            {!! e(new \Illuminate\Support\HtmlString($this->comment?->body)) !!}
-        </div>
+        @if ($isEditing)
+            <x-filament::textarea wire:model.defer="editedBody" class="w-full" />
+            <div class="flex gap-2 mt-2">
+                <x-filament::button wire:click="updateComment" size="sm"
+                    icon="heroicon-o-check">حفظ</x-filament::button>
+                <x-filament::button wire:click="cancelEditing" size="sm" color="gray"
+                    icon="heroicon-o-x-mark">إلغاء</x-filament::button>
+            </div>
+        @else
+            <div class="my-4 prose max-w-none dark:prose-invert">
+                {!! e(new \Illuminate\Support\HtmlString($this->comment?->body)) !!}
+            </div>
+        @endif
+
         <div class="flex flex-wrap items-center gap-2 md:space-x-4">
+
+            @if (auth()->check() && auth()->id() === $comment->user_id)
+                <x-filament::icon-button icon="heroicon-o-pencil-square" size="xs" wire:click="enableEditing"
+                    tooltip="تعديل التعليق" />
+                <x-filament::icon-button icon="heroicon-o-trash" size="xs" color="danger"
+                    wire:click="deleteComment" tooltip="حذف التعليق" />
+            @endif
+
             <x-filament::link size="xs" class="cursor-pointer" icon="heroicon-s-chat-bubble-left-right"
                 wire:click.prevent="toggleReplies">
                 @if ($this->comment->replies_count > 0)
