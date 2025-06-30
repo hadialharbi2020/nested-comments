@@ -36,9 +36,13 @@ class CommentCard extends Component
 
     public function render(): View
     {
-        $namespace = NestedCommentsServiceProvider::$viewNamespace;
+        $customView = resource_path('views/livewire/nested-comments/comment-card.blade.php');
 
-        return view("$namespace::livewire.comment-card");
+        if (file_exists($customView)) {
+            return view('livewire.nested-comments.comment-card');
+        }
+
+        return view(NestedCommentsServiceProvider::$viewNamespace . '::livewire.comment-card');
     }
 
     /**

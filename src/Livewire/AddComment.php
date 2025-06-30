@@ -2,9 +2,6 @@
 
 namespace Hadialharbi\NestedComments\Livewire;
 
-use Hadialharbi\NestedComments\Concerns\HasComments;
-use Hadialharbi\NestedComments\Models\Comment;
-use Hadialharbi\NestedComments\NestedCommentsServiceProvider;
 use Error;
 use Exception;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -12,6 +9,9 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use FilamentTiptapEditor\Concerns\HasFormMentions;
 use FilamentTiptapEditor\TiptapEditor;
+use Hadialharbi\NestedComments\Concerns\HasComments;
+use Hadialharbi\NestedComments\Models\Comment;
+use Hadialharbi\NestedComments\NestedCommentsServiceProvider;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
@@ -104,9 +104,13 @@ class AddComment extends Component implements HasForms
 
     public function render(): View
     {
-        $namespace = NestedCommentsServiceProvider::$viewNamespace;
+        $customView = resource_path('views/livewire/nested-comments/add-comment.blade.php');
 
-        return view("$namespace::livewire.add-comment");
+        if (file_exists($customView)) {
+            return view('livewire.nested-comments.add-comment');
+        }
+
+        return view(NestedCommentsServiceProvider::$viewNamespace . '::livewire.add-comment');
     }
 
     public function showForm(bool $adding): void

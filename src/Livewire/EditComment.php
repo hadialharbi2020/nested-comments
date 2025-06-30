@@ -78,9 +78,13 @@ class EditComment extends Component implements HasForms
 
     public function render(): View
     {
-        $namespace = NestedCommentsServiceProvider::$viewNamespace;
+        $customView = resource_path('views/livewire/nested-comments/edit-comment.blade.php');
 
-        return view("$namespace::livewire.edit-comment");
+        if (file_exists($customView)) {
+            return view('livewire.nested-comments.edit-comment');
+        }
+
+        return view(NestedCommentsServiceProvider::$viewNamespace . '::livewire.edit-comment');
     }
 
     public function showForm(bool $editing): void

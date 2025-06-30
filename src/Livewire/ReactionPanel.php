@@ -2,6 +2,7 @@
 
 namespace Hadialharbi\NestedComments\Livewire;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
@@ -23,8 +24,14 @@ class ReactionPanel extends Component
         $this->record = $record;
     }
 
-    public function render()
+    public function render(): View
     {
+        $customView = resource_path('views/livewire/nested-comments/reaction-panel.blade.php');
+
+        if (file_exists($customView)) {
+            return view('livewire.nested-comments.reaction-panel');
+        }
+
         return view('nested-comments::livewire.reaction-panel');
     }
 

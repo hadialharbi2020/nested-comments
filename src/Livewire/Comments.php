@@ -6,6 +6,7 @@ use Hadialharbi\NestedComments\Concerns\HasComments;
 use Hadialharbi\NestedComments\Models\Comment;
 use Hadialharbi\NestedComments\NestedComments;
 use Hadialharbi\NestedComments\NestedCommentsServiceProvider;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -51,10 +52,14 @@ class Comments extends Component
         }
     }
 
-    public function render()
+    public function render(): View
     {
-        $namespace = NestedCommentsServiceProvider::$viewNamespace;
+        $customView = resource_path('views/livewire/nested-comments/comments.blade.php');
 
-        return view($namespace . '::livewire.comments');
+        if (file_exists($customView)) {
+            return view('livewire.nested-comments.comments');
+        }
+
+        return view(NestedCommentsServiceProvider::$viewNamespace . '::livewire.comments');
     }
 }
