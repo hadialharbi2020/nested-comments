@@ -17,9 +17,9 @@ class Comments extends Component
      */
     public ?Model $record = null;
 
-    // protected $listeners = [
-    //     'refresh' => 'refreshComments',
-    // ];
+    protected $listeners = [
+        'refresh' => 'refreshComments',
+    ];
 
     /**
      * @var Collection<Comment>
@@ -41,8 +41,8 @@ class Comments extends Component
         $this->refreshComments();
     }
 
-    #[On('comment-deleted')]
-    #[On('refresh')]
+    // #[On('comment-deleted')]
+    // #[On('refresh')]
     public function refreshComments(): void
     {
         $this->record = $this->record->refresh();

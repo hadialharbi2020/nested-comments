@@ -26,9 +26,10 @@ class CommentCard extends Component
 
     public ?int $replyingToCommentId = null;
 
-    // protected $listeners = [
-    //     'refresh' => 'refreshReplies',
-    // ];
+    protected $listeners = [
+        'refresh' => 'refreshReplies',
+        'refresh' => 'comment-deleted',
+    ];
 
     public function mount(?Comment $comment = null): void
     {
@@ -48,7 +49,7 @@ class CommentCard extends Component
         return view("$namespace::livewire.comment-card");
     }
 
-    #[On('refresh')]
+    // #[On('refresh')]
     public function refreshReplies(): void
     {
         $this->comment = $this->comment?->refresh();
@@ -85,7 +86,7 @@ class CommentCard extends Component
 
     public function updateComment(): void
     {
-        abort_unless(auth()->id() === $this->comment->user_id, 403);
+        // abort_unless(auth()->id() === $this->comment->user_id, 403);
 
         $this->validate([
             'editedBody' => 'required|string|min:1',
@@ -97,7 +98,7 @@ class CommentCard extends Component
 
     public function deleteComment(): void
     {
-        abort_unless(auth()->id() === $this->comment->user_id, 403);
+        // abort_unless(auth()->id() === $this->comment->user_id, 403);
 
         $this->comment->delete();
         $this->dispatch('comment-deleted', id: $this->comment->id);
