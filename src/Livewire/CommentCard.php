@@ -103,7 +103,8 @@ class CommentCard extends Component
         }
 
         $this->comment->delete();
-        $this->dispatch('refresh')->to(Comments::class);
+        $this->dispatchUp('refresh');
+
     }
 
     public function enableEditing(): void
