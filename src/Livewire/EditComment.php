@@ -44,6 +44,7 @@ class EditComment extends Component implements HasForms
                 TiptapEditor::make('body')
                     ->label(__('nested-comments::nested-comments.comments.form.field.comment.label'))
                     ->profile('minimal')
+                    ->output(\FilamentTiptapEditor\Enums\TiptapOutput::Html)
                     ->extraInputAttributes(['style' => 'min-height: 12rem;'])
                     ->mentionItemsPlaceholder(__('nested-comments::nested-comments.comments.form.field.comment.mention_items_placeholder'))
                     ->emptyMentionItemsMessage(__('nested-comments::nested-comments.comments.form.field.comment.empty_mention_items_message'))
@@ -61,18 +62,6 @@ class EditComment extends Component implements HasForms
      */
     public function update(): void
     {
-        // التحقق من الأذونات باستخدام Spatie
-        if ($this->comment->user_id) {
-            abort_unless(
-                auth()->user() && (auth()->user()->hasPermissionTo('edit all comments') ||
-                (auth()->user()->hasPermissionTo('edit own comments') && auth()->id() === $this->comment->user_id)),
-                403,
-                'غير مصرح لك بتعديل هذا التعليق.'
-            );
-        } else {
-            // دعم الضيوف
-            abort_unless(session('guest_comment_token') === $this->comment->guest_token, 403, 'غير مصرح لك بتعديل هذا التعليق.');
-        }
 
         $data = $this->form->getState();
 

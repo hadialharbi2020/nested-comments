@@ -3,6 +3,7 @@
 namespace Hadialharbi\NestedComments\Models;
 
 use Hadialharbi\NestedComments\Concerns\HasReactions;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -10,6 +11,7 @@ use Kalnoy\Nestedset\NodeTrait;
 
 class Comment extends Model
 {
+    use HasFactory;
     use HasReactions;
     use NodeTrait;
 
