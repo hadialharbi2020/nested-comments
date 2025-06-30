@@ -153,6 +153,10 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
                 __DIR__ . '/../src/Livewire' => app_path('Livewire/NestedComments'),
                 __DIR__ . '/../resources/views/livewire' => resource_path('views/livewire/nested-comments'),
             ], 'nested-comments-components');
+
+            $this->publishes([
+                __DIR__ . '/Filament/Actions/CommentsAction.php' => app_path('Filament/Actions/CommentsAction.php'),
+            ], 'nested-comments-actions');
         }
 
         // Testing
