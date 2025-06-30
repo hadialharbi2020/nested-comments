@@ -53,7 +53,7 @@ class CommentCard extends Component
     public function refreshReplies(): void
     {
         if ($this->comment) {
-            $this->comment->load('replies'); // تحميل الردود فقط
+            $this->comment->load('children'); // تحميل الردود فقط
         }
     }
 
