@@ -8,6 +8,7 @@ use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
+use Hadialharbi\NestedComments\Commands\FixNamespacesCommand;
 use Hadialharbi\NestedComments\Commands\NestedCommentsCommand;
 use Hadialharbi\NestedComments\Filament\Widgets\CommentsWidget;
 use Hadialharbi\NestedComments\Http\Middleware\GuestCommentatorMiddleware;
@@ -135,6 +136,25 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
             }
         }
 
+        if (app()->runningInConsole()) {
+            foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
+                $this->publishes([
+                    $file->getRealPath() => base_path("stubs/nested-comments/{$file->getFilename()}"),
+                ], 'nested-comments-stubs');
+            }
+
+            // ✅ نشر الواجهات
+            $this->publishes([
+                __DIR__ . '/../resources/views' => resource_path('views/vendor/nested-comments'),
+            ], 'nested-comments-views');
+
+            // ✅ نشر الكمبوننتات Livewire
+            $this->publishes([
+                __DIR__ . '/../src/Livewire' => app_path('Livewire/NestedComments'),
+                __DIR__ . '/../resources/views/livewire' => resource_path('views/livewire/nested-comments'),
+            ], 'nested-comments-components');
+        }
+
         // Testing
         Testable::mixin(new TestsNestedComments);
     }
@@ -163,6 +183,8 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
     {
         return [
             NestedCommentsCommand::class,
+            FixNamespacesCommand::class,
+
         ];
     }
 
