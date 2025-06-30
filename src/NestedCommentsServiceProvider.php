@@ -127,16 +127,8 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
         // Icon Registration
         FilamentIcon::register($this->getIcons());
 
-        // Handle Stubs
         if (app()->runningInConsole()) {
-            foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
-                $this->publishes([
-                    $file->getRealPath() => base_path("stubs/nested-comments/{$file->getFilename()}"),
-                ], 'nested-comments-stubs');
-            }
-        }
-
-        if (app()->runningInConsole()) {
+            // ✅ نشر stubs
             foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
                 $this->publishes([
                     $file->getRealPath() => base_path("stubs/nested-comments/{$file->getFilename()}"),
@@ -148,15 +140,37 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
                 __DIR__ . '/../resources/views' => resource_path('views/vendor/nested-comments'),
             ], 'nested-comments-views');
 
-            // ✅ نشر الكمبوننتات Livewire
+            // ✅ نشر مكونات Livewire
             $this->publishes([
                 __DIR__ . '/../src/Livewire' => app_path('Livewire/NestedComments'),
                 __DIR__ . '/../resources/views/livewire' => resource_path('views/livewire/nested-comments'),
             ], 'nested-comments-components');
 
+            // ✅ نشر Form Action
             $this->publishes([
                 __DIR__ . '/Filament/Actions/CommentsAction.php' => app_path('Filament/Actions/CommentsAction.php'),
             ], 'nested-comments-actions');
+
+            // ✅ نشر Table Action
+            $this->publishes([
+                __DIR__ . '/Filament/Tables/Actions/CommentsAction.php' => app_path('Filament/Tables/Actions/CommentsAction.php'),
+            ], 'nested-comments-table-actions');
+
+            // ✅ نشر الكل دفعة وحدة (تاق موحد)
+            $this->publishes([
+                // views
+                __DIR__ . '/../resources/views' => resource_path('views/vendor/nested-comments'),
+
+                // Livewire + Blade views
+                __DIR__ . '/../src/Livewire' => app_path('Livewire/NestedComments'),
+                __DIR__ . '/../resources/views/livewire' => resource_path('views/livewire/nested-comments'),
+
+                // Form Action
+                __DIR__ . '/Filament/Actions/CommentsAction.php' => app_path('Filament/Actions/CommentsAction.php'),
+
+                // Table Action
+                __DIR__ . '/Filament/Tables/Actions/CommentsAction.php' => app_path('Filament/Tables/Actions/CommentsAction.php'),
+            ], 'nested-comments-customizable');
         }
 
         // Testing

@@ -54,6 +54,24 @@ class FixNamespacesCommand extends Command
             $this->warn('⚠️ CommentsAction.php not found: ' . $filamentActionPath);
         }
 
+        $tableActionPath = app_path('Filament/Tables/Actions/CommentsAction.php');
+
+        if (File::exists($tableActionPath)) {
+            $contents = File::get($tableActionPath);
+
+            $updated = str_replace(
+                'namespace Hadialharbi\\NestedComments\\Filament\\Tables\\Actions;',
+                'namespace App\\Filament\\Tables\\Actions;',
+                $contents
+            );
+
+            File::put($tableActionPath, $updated);
+
+            $this->info('✅ Namespace updated in Table CommentsAction.php.');
+        } else {
+            $this->warn('⚠️ Table CommentsAction.php not found: ' . $tableActionPath);
+        }
+
         $this->info('🎉 Namespace fix completed.');
     }
 }
