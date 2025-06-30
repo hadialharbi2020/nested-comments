@@ -1,7 +1,4 @@
-<div x-data wire:poll.15s dir="rtl" class="text-right">
-
-
-
+<div dir="rtl" class="text-right">
 
     @if ($comment)
         <div class="p-8 my-4 rounded-lg bg-gray-50 ring-gray-100 dark:bg-gray-950" x-data="{ isDeleted: false }"
@@ -25,36 +22,20 @@
                 </div>
             </div>
 
-            @if ($isEditing)
-                <textarea wire:model.defer="editedBody"
-                    class="w-full border-gray-300 rounded-lg shadow-sm dark:bg-gray-900 dark:text-white dark:border-gray-700"></textarea>
-                <div class="flex gap-2 mt-2">
-                    <x-filament::button wire:click="updateComment" size="sm"
-                        icon="heroicon-o-check">حفظ</x-filament::button>
-                    <x-filament::button wire:click="cancelEditing" size="sm" color="gray"
-                        icon="heroicon-o-x-mark">إلغاء</x-filament::button>
-                </div>
-            @else
-                <div class="my-4 prose max-w-none dark:prose-invert">
-                    {!! e(new \Illuminate\Support\HtmlString($this->comment?->body)) !!}
-                </div>
-            @endif
+            <div class="my-4 prose max-w-none dark:prose-invert">
+                {!! e(new \Illuminate\Support\HtmlString($this->comment?->body)) !!}
+            </div>
 
             <div class="flex flex-wrap items-center gap-2 md:space-x-4">
-                @if (
-                    $comment->user_id
-                        ? auth()->check() && auth()->id() === $comment->user_id
-                        : session('guest_comment_token') === $comment->guest_token)
-                    <x-filament::icon-button icon="heroicon-o-pencil-square" size="xs" wire:click="enableEditing"
-                        tooltip="تعديل التعليق" />
-                    <x-filament::icon-button icon="heroicon-o-trash" size="xs" color="danger"
-                        wire:confirm="هل أنت متأكد من حذفbushy deleting this comment?" wire:click="deleteComment"
-                        tooltip="حذف التعليق" x-on:click="isDeleted = true" />
-                @endif
+                <livewire:nested-comments::edit-comment :comment="$this->comment" :key="'edit-' . $this->comment->getKey()" />
+                <x-filament::icon-button icon="heroicon-o-trash" size="xs" color="danger"
+                    wire:confirm="هل أنت متأكد من حذف التعليق؟" wire:click="deleteComment" tooltip="حذف التعليق"
+                    x-on:click="isDeleted = true" />
+
 
                 <x-filament::link size="xs" class="cursor-pointer" icon="heroicon-s-chat-bubble-left-right"
                     wire:click.prevent="toggleReplies">
-                    @if ($this->comment->replies_count > 0)
+                    @if ($this->comment && $this->comment->replies_count > 0)
                         <span title="{{ \Illuminate\Support\Number::format($this->comment->replies_count) }}">
                             {{ \Illuminate\Support\Number::forHumans($this->comment->replies_count, maxPrecision: 3, abbreviate: true) }}
                             {{ str(__('nested-comments::nested-comments.comments.general.reply'))->plural($this->comment->replies_count) }}
@@ -69,14 +50,16 @@
             </div>
         </div>
 
-        @if ($replyingToCommentId === $comment->id)
+        @if ($replyingToCommentId === $comment->id && $this->comment->replies_count)
             <div x-ref="repliesContainer" class="pb-4 pr-8 my-2 border-b border-r rounded-br-xl">
                 @foreach ($this->comment->children as $reply)
                     <livewire:nested-comments::comment-card :key="$reply->getKey()" :comment="$reply" />
                 @endforeach
 
-                <livewire:nested-comments::add-comment :key="'reply-' . $comment->getKey()" :commentable="$comment->commentable" :reply-to="$comment"
-                    :adding-comment="false" wire:loading.attr="disabled" />
+                @if (auth()->check() ? auth()->user()->hasPermissionTo('create comments') : true)
+                    <livewire:nested-comments::add-comment :key="'reply-' . $comment->getKey()" :commentable="$comment->commentable" :reply-to="$comment"
+                        :adding-comment="false" wire:loading.attr="disabled" />
+                @endif
 
                 <x-filament::icon-button
                     x-on:click="
