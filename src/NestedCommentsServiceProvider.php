@@ -156,6 +156,11 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
                 __DIR__ . '/Filament/Tables/Actions/CommentsAction.php' => app_path('Filament/Tables/Actions/CommentsAction.php'),
             ], 'nested-comments-table-actions');
 
+            // ✅ نشر ملفات الترجمة
+            $this->publishes([
+                __DIR__ . '/../resources/lang' => resource_path('lang/vendor/nested-comments'),
+            ], 'nested-comments-translations');
+
             // ✅ نشر الكل دفعة وحدة (تاق موحد)
             $this->publishes([
                 // views
@@ -170,6 +175,10 @@ class NestedCommentsServiceProvider extends PackageServiceProvider
 
                 // Table Action
                 __DIR__ . '/Filament/Tables/Actions/CommentsAction.php' => app_path('Filament/Tables/Actions/CommentsAction.php'),
+
+                // Translations
+                __DIR__ . '/../resources/lang' => resource_path('lang/vendor/nested-comments'),
+
             ], 'nested-comments-customizable');
         }
 

@@ -2,8 +2,9 @@
 
 namespace Hadialharbi\NestedComments\Filament\Actions;
 
+use Filament\Tables\Actions\Action;
+// use Filament\Actions\Action;
 use Hadialharbi\NestedComments\NestedComments;
-use Filament\Actions\Action;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
 
