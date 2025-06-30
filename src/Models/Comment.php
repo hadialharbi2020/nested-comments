@@ -13,6 +13,13 @@ class Comment extends Model
     use HasReactions;
     use NodeTrait;
 
+    protected static function booted()
+    {
+        static::deleting(function ($comment) {
+            $comment->children()->delete();
+        });
+    }
+
     protected $guarded = ['id'];
 
     public function commentable(): MorphTo

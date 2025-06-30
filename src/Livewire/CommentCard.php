@@ -18,8 +18,6 @@ class CommentCard extends Component
 
     public ?Comment $comment = null;
 
-    // public bool $showReplies = false;
-
     public ?string $userAvatar = null;
 
     public ?string $userName = null;
@@ -28,7 +26,7 @@ class CommentCard extends Component
 
     protected $listeners = [
         'refresh' => 'refreshReplies',
-        'refresh' => 'comment-deleted',
+        'comment-deleted' => 'onCommentDeleted',
     ];
 
     public function mount(?Comment $comment = null): void
@@ -49,10 +47,14 @@ class CommentCard extends Component
         return view("$namespace::livewire.comment-card");
     }
 
-    // #[On('refresh')]
+    /**
+     * Refresh the nested replies for the current comment.
+     */
     public function refreshReplies(): void
     {
-        $this->comment = $this->comment?->refresh();
+        if ($this->comment) {
+            $this->comment->load('replies'); // تحميل الردود فقط
+        }
     }
 
     public function toggleReplies(): void
@@ -96,13 +98,44 @@ class CommentCard extends Component
         $this->isEditing = false;
     }
 
+    /**
+     * Delete the current comment and dispatch an event.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function deleteComment(): void
     {
-        // abort_unless(auth()->id() === $this->comment->user_id, 403);
+        // التحقق من الصلاحيات: إما أن يكون المستخدم هو صاحب التعليق أو يملك إذنًا
+        // if ($this->comment->user_id) {
+        //     abort_unless(auth()->id() === $this->comment->user_id, 403, 'غير مصرح لك بحذف هذا التعليق.');
+        // } else {
+        //     // للضيوف: يمكن إضافة منطق تحقق إضافي (مثل رمز جلسة)
+        //     abort_unless(session('guest_comment_token') === $this->comment->guest_token, 403, 'غير مصرح لك بحذف هذا التعليق.');
+        // }
 
+        $commentId = $this->comment->id;
+        $parentId = $this->comment->parent_id;
         $this->comment->delete();
-        $this->dispatch('comment-deleted', id: $this->comment->id);
+        $this->dispatch('comment-deleted', id: $commentId, parentId: $parentId);
+        $this->dispatch('notify', message: 'تم حذف التعليق بنجاح!');
+    }
 
+    /**
+     * Handle the comment-deleted event to update the UI, including nested replies.
+     *
+     * @param  int  $id  The ID of the deleted comment
+     * @param  int|null  $parentId  The ID of the parent comment, if applicable
+     */
+    public function onCommentDeleted($id, $parentId = null): void
+    {
+        if ($this->comment && $this->comment->id === $id) {
+            // التعليق الحالي تم حذفه
+            $this->comment = null;
+        } elseif ($this->comment && $this->comment->id === $parentId) {
+            // أحد الردود المتداخلة تم حذفه، تحديث الردود
+            $this->comment->load('children'); // تحميل العلاقة children
+            $this->dispatch('notify', message: 'تم حذف رد متداخل.');
+        }
     }
 
     public function enableEditing(): void
