@@ -29,6 +29,8 @@ return [
                 'reply' => 'رد',
                 'hide_replies' => 'إخفاء الردود',
                 'refresh' => 'تحديث',
+                'edit_comment' => 'تعديل التعليق',
+                'save' => 'حفظ',
             ],
         ],
         'table' => [
